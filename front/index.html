@@ -31,10 +31,23 @@
       <div>
         <button id="connect" class="btn btn-connect">Connect</button>
         <button id="disconnect" class="btn btn-disconnect" disabled="disabled">Disconnect</button>
+        <div id="connection-status" style="display: flex; flex-direction : column;"><strong>Disconnected</strong></div>
       </div>
-      <div id="content">
-        <h3>Message Content</h3>
+
+      <div id="creation">
+        <button id="create" class="btn btn-cre">Create</button>
+        <div id="match-code"><bold>Match Code:</bold></div>
+      </div>
+
+      <div id="joining">
+        <h3>Join</h3>
+        <form id="join-form">
+          <input id="join-input" type="text">
+          <input id="join-button" type="submit" value="Submit">
+        </form>
+        <div id="join-message"><bold>Match Data: </bold></div>
       </div>
     </main>
   </body>
+
 </html>
