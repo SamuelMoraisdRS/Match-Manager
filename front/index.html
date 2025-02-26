@@ -35,7 +35,13 @@
       </div>
 
       <div id="creation">
-        <button id="create" class="btn btn-cre">Create</button>
+        <form id="create-form" style="display: flex; flex-direction: column; gap: 2px;">
+          <input type="text" name="sender" id="sender" placeholder="Sender">
+          <input type="text" name="boardId" id="boardId" placeholder="Board's ID">
+          <input type="text" name="matchType" id="matchType" placeholder="Match Type">
+          <input type="text" name="numberOfPlayers" id="numberOfPlayers" placeholder="# Of Players">
+          <input type="submit" value="Create">
+        </form>
         <div id="match-code"><bold>Match Code:</bold></div>
       </div>
 
@@ -49,5 +55,4 @@
       </div>
     </main>
   </body>
-
 </html>
