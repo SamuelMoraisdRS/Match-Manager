@@ -32,7 +32,10 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function createMatch() {
+function createMatch(formArray) {
+    let formData = {};
+    formArray.forEach((entry) => formData[entry.name] = entry.value);
+    
     stompClient.subscribe('/topics/created', (message) => {
         console.log(`Mensagem recebida pelo back: ${message.body}`);
         updateContent(document.getElementById("match-code"), message.body);
@@ -40,7 +43,7 @@ function createMatch() {
 
     stompClient.publish({
         destination: "/app/create",
-        body: JSON.stringify({ 'message': $("#message").val() })
+        body: JSON.stringify(formData)
     });
 }
 
@@ -80,6 +83,9 @@ $(function () {
         join(value);
     });
     $("#connect").click(() => connect());
-    $("#create").click(() => createMatch());
+    $("#create-form").submit((e) => {
+        e.preventDefault();
+        createMatch($("#create-form").serializeArray());
+    })
     $("#disconnect").click(() => disconnect());
 });
