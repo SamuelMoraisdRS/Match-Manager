@@ -51,25 +51,17 @@ function createMatch(formData) {
     });
 }
 
-function join(matchCode) {
+function join(formData) {
+
     stompClient.publish({
         destination: '/app/join',
-        body: matchCode
+        body: JSON.stringify(formData)
     })
-    stompClient.subscribe(`/topics/created/${matchCode}`, (message) => {
+    stompClient.subscribe(`/topics/created/${formData.matchCode}`, (message) => {
         console.log(`Mensagem do Join Match: ${message.body}`);
         updateContent(document.getElementById("join-message"), message.body);
     });
 
-}
-
-function frameToString(frame) {
-    let content = "";
-    Object.entries(frame).forEach((entry) => {
-        content = content.concat(`${entry[0]} : ${entry[1]}\n`)
-        console.log(`Content: ${content}`);
-    })
-    return content;
 }
 
 function updateContent(element, message) {
@@ -82,14 +74,15 @@ $(function () {
 
     $("#join-form").on('submit', (e) => {
         e.preventDefault();
-        let value = document.getElementById('join-input').value;
-        console.log(`valor no form : ${value}`)
-        join(value);
+        let formData = getFormDataObj($("#join-form").serializeArray());
+        join(formData);
     });
     $("#connect").click(() => connect());
     $("#create-form").submit((e) => {
         e.preventDefault();
-        createMatch($("#create-form").serializeArray());
+        let formData = getFormDataObj($("#create-form").serializeArray());
+        console.log(formData);
+        createMatch(formData);
     })
     $("#disconnect").click(() => disconnect());
 });
