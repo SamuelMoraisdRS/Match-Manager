@@ -32,10 +32,14 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function createMatch(formArray) {
+function getFormDataObj(formArray) {
     let formData = {};
     formArray.forEach((entry) => formData[entry.name] = entry.value);
-    
+    return formData;
+}
+
+function createMatch(formData) {
+
     stompClient.subscribe('/topics/created', (message) => {
         console.log(`Mensagem recebida pelo back: ${message.body}`);
         updateContent(document.getElementById("match-code"), message.body);
