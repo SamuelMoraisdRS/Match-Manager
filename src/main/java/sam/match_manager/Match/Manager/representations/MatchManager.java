@@ -41,13 +41,13 @@ public class MatchManager {
     this.players.putAll(players);
   }
 
-  public void addPlayer(String playerId, Player player) {
-    players.put(player.id(), player);
+  public void addPlayer(Player player) {
+    players.put(player.getId(), player);
   }
 
   private Double calculateScore(Player player) {
-    return ((player.numberOfCorrects() / player.numberOfGuesses()) - player.checksUsed()
-        - (1.5 * player.submitsUsed()));
+    return ((player.getNumberOfCorrects() / player.getNumberOfGuesses()) - player.getChecksUsed()
+        - (1.5 * player.getSubmitsUsed()));
   }
 
   public String getMatchCode() {
