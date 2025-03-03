@@ -13,7 +13,7 @@
     <link href="/main.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
-    <script src="/app.js"></script>
+    <script src="./app.js"></script>
   </head>
   <body>
     <noscript
@@ -56,6 +56,15 @@
           <input id="join-button" type="submit" value="Submit">
         </form>
         <div id="join-message"><bold>Match Data: </bold></div>
+      </div>
+
+      <div id="players">
+        <h3>Check Players</h3>
+        <form id="players-form">
+          <input type="text" name="matchCode">
+          <input type="submit">
+        </form>
+        <div id="players-message"></div>
       </div>
     </main>
   </body>
