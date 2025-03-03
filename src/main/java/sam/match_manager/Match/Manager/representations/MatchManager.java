@@ -54,8 +54,52 @@ public class MatchManager {
     return matchCode;
   }
 
+  public Map<String, Player> getPlayers() {
+   return players;
+  }
+
   public MatchData getMatchData() {
     return this.matchData;
+  }
+
+  public Integer getRANDOM_NUM_FACTOR() {
+    return this.RANDOM_NUM_FACTOR;
+  }
+
+  public void setMatchCode(String matchCode) {
+    this.matchCode = matchCode;
+  }
+
+  public Integer getNumOfPlayers() {
+    return this.numOfPlayers;
+  }
+
+  public void setNumOfPlayers(Integer numOfPlayers) {
+    this.numOfPlayers = numOfPlayers;
+  }
+
+  public Instant getMatchStartInstant() {
+    return this.matchStartInstant;
+  }
+
+  public void setMatchStartInstant(Instant matchStartInstant) {
+    this.matchStartInstant = matchStartInstant;
+  }
+
+  public Instant getMatchEndInstant() {
+    return this.matchEndInstant;
+  }
+
+  public void setMatchEndInstant(Instant matchEndInstant) {
+    this.matchEndInstant = matchEndInstant;
+  }
+
+  public MatchStatus getMatchStatus() {
+    return this.matchStatus;
+  }
+
+  public void setMatchStatus(MatchStatus matchStatus) {
+    this.matchStatus = matchStatus;
   }
 
   private void generateMatchCode() {
