@@ -61,7 +61,22 @@ function join(formData) {
         console.log(`Mensagem do Join Match: ${message.body}`);
         updateContent(document.getElementById("join-message"), message.body);
     });
+    stompClient.publish({
+        destination: '/app/join',
+        body: JSON.stringify(formData)
+    })
 
+}
+
+function getPlayers(formData) {
+    stompClient.subscribe(`/topics/created/players/${formData.matchCode}`, (message) => {
+        console.log(`Mensagem recebida no getPlayers: ${message}`)
+        updateContent(document.getElementById("players-message"), message.body);
+    });
+    stompClient.publish({
+        destination: `/app/players/${formData.matchCode}`,
+        body: formData.matchCode
+    })
 }
 
 function updateContent(element, message) {
@@ -83,6 +98,11 @@ $(function () {
         let formData = getFormDataObj($("#create-form").serializeArray());
         console.log(formData);
         createMatch(formData);
+    })
+    $('#players-form').submit((e) => {
+        e.preventDefault();
+        const formData = getFormDataObj($('#players-form').serializeArray());
+        getPlayers(formData);
     })
     $("#disconnect").click(() => disconnect());
 });
