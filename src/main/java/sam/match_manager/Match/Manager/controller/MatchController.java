@@ -44,13 +44,18 @@ public class MatchController {
 
   @MessageMapping("/join")
   public void joinMatch(Message<JoinMatchMessage> message) {
-    String playerId = String.valueOf(message.getHeaders().get("simpSessionId")); // Probably won't work
     JoinMatchMessage joinMatchMessage = message.getPayload();
     String matchCode = String.valueOf(joinMatchMessage.matchCode());
-    Player player = new Player(playerId, joinMatchMessage.playerStatus(), joinMatchMessage.numberOfGuesses(),
+    Player player = new Player(joinMatchMessage.playerStatus(), joinMatchMessage.numberOfGuesses(),
         joinMatchMessage.numberOfCorrects(), joinMatchMessage.checksUsed(), joinMatchMessage.submitsUsed());
     MatchManager matchManager = matchManagers.get(matchCode);
-    matchManager.addPlayer(playerId, player);
-    simpMessagingTemplate.convertAndSend("/topics/created/" + matchCode, matchManager.getMatchData());
+    matchManager.addPlayer(player);
+    simpMessagingTemplate.convertAndSend("/topics/created/" + matchCode, player.getId());
+  }
+
+  @MessageMapping("/players/{matchCode}")
+  public void getPlayers(@DestinationVariable("matchCode") String matchCode) {
+    MatchManager matchManager = matchManagers.get(matchCode);
+    simpMessagingTemplate.convertAndSend("/topics/created/players/" + matchCode, matchManager.getPlayers().values());
   }
 }
