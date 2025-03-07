@@ -23,8 +23,9 @@
       </h2></noscript
     >
 
-    <header style="display: flex; justify-content: center">
+    <header style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
       <h2 style="font-weight: bold; color: rgb(15, 9, 9)">WS Test</h2>
+      <h2 id="match-status">Match Status: </h2>
     </header>
 
     <main style="display: flex; align-items : center; justify-content: space-around">
@@ -53,9 +54,11 @@
           <input id="join-input" type="text" name="numberOfCorrects" placeholder="# of Corrects">
           <input id="join-input" type="text" name="checksUsed" placeholder="# of Checks Used">
           <input id="join-input" type="text" name="submitsUsed" placeholder="# of Submits Used">
-          <input id="join-button" type="submit" value="Submit">
+          <input id="join-button" name="join-button" type="submit" value="Join">
         </form>
+        <button id="heartbeat-button" >Heartbeat</button>
         <div id="join-message"><bold>Match Data: </bold></div>
+        <div id="join-return"></div>
       </div>
 
       <div id="players">
@@ -66,6 +69,7 @@
         </form>
         <div id="players-message"></div>
       </div>
+
     </main>
   </body>
 </html>

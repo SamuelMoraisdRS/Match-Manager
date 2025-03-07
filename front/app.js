@@ -52,11 +52,6 @@ function createMatch(formData) {
 }
 
 function join(formData) {
-
-    stompClient.publish({
-        destination: '/app/join',
-        body: JSON.stringify(formData)
-    })
     stompClient.subscribe(`/topics/created/${formData.matchCode}`, (message) => {
         console.log(`Mensagem do Join Match: ${message.body}`);
         updateContent(document.getElementById("join-message"), message.body);
@@ -65,7 +60,6 @@ function join(formData) {
         destination: '/app/join',
         body: JSON.stringify(formData)
     })
-
 }
 
 function getPlayers(formData) {
@@ -80,9 +74,27 @@ function getPlayers(formData) {
 }
 
 function updateContent(element, message) {
-    let newMsg = document.createElement("div");
-    newMsg.innerText = message;
-    element.appendChild(newMsg);
+    element.innerHTML = message;
+}
+
+function matchBegins() {
+    $("#match-status").inner("Started");
+}
+
+function endMatch() {
+    $("#match-status").append("Over");
+}
+
+function sendHeartbeat(formData) {
+    stompClient.subscribe(`/topics/created/heartbeat/${formData.matchCode}`, (message) => {
+        console.log(`Mensagem recebida no heartbeat: ${message.body}`);
+        updateContent(document.getElementById("match-status"), message.body);
+    });
+
+    stompClient.publish({
+        destination: '/app/heartbeat',
+        body: JSON.stringify(formData)
+    })
 }
 
 $(function () {
@@ -92,6 +104,10 @@ $(function () {
         let formData = getFormDataObj($("#join-form").serializeArray());
         join(formData);
     });
+    $("#heartbeat-button").click(() => {
+        let formData = getFormDataObj($("#join-form").serializeArray());
+        sendHeartbeat(formData);
+    })
     $("#connect").click(() => connect());
     $("#create-form").submit((e) => {
         e.preventDefault();
