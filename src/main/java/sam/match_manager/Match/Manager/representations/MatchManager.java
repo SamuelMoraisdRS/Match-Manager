@@ -29,20 +29,38 @@ public class MatchManager {
   private Instant matchStartInstant;
   private Instant matchEndInstant;
   private MatchStatus matchStatus = MatchStatus.IDLE;
+  private int remainingPlayers;
 
   public MatchManager(Integer numOfPlayers, MatchData matchData) {
     this.numOfPlayers = numOfPlayers;
     this.matchData = matchData;
     generateMatchCode();
+    remainingPlayers = numOfPlayers;
     matchStartInstant = Instant.now();
-  }
-
-  public void addPlayers(Map<String, Player> players) {
-    this.players.putAll(players);
   }
 
   public void addPlayer(Player player) {
     players.put(player.getId(), player);
+  }
+
+  public void updatePlayer(Player newPlayer) {
+    if (!players.containsKey(newPlayer.getId())) {
+      return;
+    }
+    Player currentPlayer = players.get(newPlayer.getId());
+    players.put(newPlayer.getId(), newPlayer);
+    // Assuming the player won't join the match as a winner
+    if (newPlayer.getPlayerStatus() == PlayerStatus.WINNER && currentPlayer.getPlayerStatus() == PlayerStatus.WINNER) {
+      return;
+    }
+    remainingPlayers--;
+    if (isMatchOver()) {
+      endGame();
+    }
+  }
+
+  private void endGame() {
+    matchStatus = MatchStatus.END;
   }
 
   private Double calculateScore(Player player) {
@@ -50,12 +68,16 @@ public class MatchManager {
         - (1.5 * player.getSubmitsUsed()));
   }
 
+  public boolean isMatchOver() {
+    return remainingPlayers == 0;
+  }
+
   public String getMatchCode() {
     return matchCode;
   }
 
   public Map<String, Player> getPlayers() {
-   return players;
+    return players;
   }
 
   public MatchData getMatchData() {
