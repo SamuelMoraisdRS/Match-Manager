@@ -29,12 +29,13 @@
     </header>
 
     <main style="display: flex; align-items : center; justify-content: space-around">
+        <button id="connection-hide">Hide</button>
       <div id="connection">
         <button id="connect" class="btn btn-connect">Connect</button>
         <button id="disconnect" class="btn btn-disconnect" disabled="disabled">Disconnect</button>
         <div id="connection-status" style="display: flex; flex-direction : column;"><strong>Disconnected</strong></div>
       </div>
-
+        <button id="creation-hide">Hide</button>
       <div id="creation">
         <form id="create-form" style="display: flex; flex-direction: column; gap: 2px;">
           <input type="text" name="boardId" id="boardId" placeholder="Board's ID">
@@ -44,7 +45,7 @@
         </form>
         <div id="match-code"><bold>Match Code:</bold></div>
       </div>
-
+        <button id="join-hide">Hide</button>
       <div id="joining">
         <h3>Join</h3>
         <form id="join-form" style="display: flex; flex-direction: column; gap: 2px;">
@@ -56,11 +57,26 @@
           <input id="join-input" type="text" name="submitsUsed" placeholder="# of Submits Used">
           <input id="join-button" name="join-button" type="submit" value="Join">
         </form>
-        <button id="heartbeat-button" >Heartbeat</button>
         <div id="join-message"><bold>Match Data: </bold></div>
         <div id="join-return"></div>
       </div>
 
+      <button id="heartbeat-hide">Hide</button>
+      <div id="heartbeat">
+        <h3>Send Heartbeat</h3>
+        <form id="heartbeat-form" style="display: flex; flex-direction: column; gap: 2px;">
+          <input id="heartbeat-input" type="text" name="matchCode" placeholder="Code">
+          <input id="heartbeat-player-id" type="text" name="playerId" placeholder="Player's ID">
+          <input id="heartbeat-input" type="text" name="playerStatus" placeholder="Status">
+          <input id="heartbeat-input" type="text" name="numberOfGuesses" placeholder="# of Guesses">
+          <input id="heartbeat-input" type="text" name="numberOfCorrects" placeholder="# of Corrects">
+          <input id="heartbeat-input" type="text" name="checksUsed" placeholder="# of Checks Used">
+          <input id="heartbeat-input" type="text" name="submitsUsed" placeholder="# of Submits Used">
+          <input id="heartbeat-button" name="heartbeat-button" type="submit" value="Send Heartbeat">
+        </form>
+      </div>
+
+      <button id="players-hide">Hide</button>
       <div id="players">
         <h3>Check Players</h3>
         <form id="players-form">
