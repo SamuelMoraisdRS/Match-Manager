@@ -81,6 +81,11 @@ function endMatch() {
     $("#match-status").append("Over");
 }
 
+function hideElementBttn(button,element) {
+    element.toggle();
+    button.text(`${element.is(":visible") ? "Hide" : "Show"} ${button.name()}`);
+}
+
 function sendHeartbeat(formData) {
     console.log(`formData do Heartbeat: ${Object.entries(formData)}`);
     stompClient.subscribe(`/topics/created/heartbeat/${formData.matchCode}`, (message) => {
@@ -95,9 +100,9 @@ function sendHeartbeat(formData) {
 }
 
 $(function () {
-    $("#connection-hide").click(() => $("#connection").toggle());
+    $("#connection-hide").click(() => hideElementBttn($("#connection-hide"), $("#connection")));
 
-    $("#creation-hide").click(() => $("#creation").toggle());
+    $("#creation-hide").click(() => hideElementBttn($("#creation-hide"),$("#creation")));
     $("#create-form").submit((e) => {
         e.preventDefault();
         let formData = getFormDataObj($("#create-form").serializeArray());
@@ -109,21 +114,21 @@ $(function () {
         let formData = getFormDataObj($("#join-form").serializeArray());
         join(formData);
     });
-    $("#join-hide").click(() => $("#joining").toggle());
+    $("#join-hide").click(() => hideElementBttn($("#join-hide"), $("#joining")));
 
     $("#heartbeat-form").submit((e) => {
         e.preventDefault();
         let formData = getFormDataObj($("#heartbeat-form").serializeArray());
         sendHeartbeat(formData);
     })
-    $("#heartbeat-hide").click(() => $("#heartbeat").join());
+    $("#heartbeat-hide").click(() => hideElementBttn($("#heartbeat-hide"), $("#heartbeat")));
 
     $('#players-form').submit((e) => {
         e.preventDefault();
         const formData = getFormDataObj($('#players-form').serializeArray());
         getPlayers(formData);
     })
-    $("#players-hide").click(() => $("#players").toggle());
+    $("#players-hide").click(() => hideElementBttn($("#players-hide"), $("#players")));
 
     $("#connect").click(() => connect());
 

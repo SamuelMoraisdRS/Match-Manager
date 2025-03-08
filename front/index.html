@@ -30,7 +30,7 @@
 
     <main style="display: flex; align-items : center; justify-content: space-around">
         <button id="connection-hide">Hide</button>
-      <div id="connection">
+      <div id="connection" name="Connection">
         <button id="connect" class="btn btn-connect">Connect</button>
         <button id="disconnect" class="btn btn-disconnect" disabled="disabled">Disconnect</button>
         <div id="connection-status" style="display: flex; flex-direction : column;"><strong>Disconnected</strong></div>
@@ -46,7 +46,7 @@
         <div id="match-code"><bold>Match Code:</bold></div>
       </div>
         <button id="join-hide">Hide</button>
-      <div id="joining">
+      <div id="joining" name="Join">
         <h3>Join</h3>
         <form id="join-form" style="display: flex; flex-direction: column; gap: 2px;">
           <input id="join-input" type="text" name="matchCode" placeholder="Code">
@@ -62,7 +62,7 @@
       </div>
 
       <button id="heartbeat-hide">Hide</button>
-      <div id="heartbeat">
+      <div id="heartbeat" name="Heartbeat">
         <h3>Send Heartbeat</h3>
         <form id="heartbeat-form" style="display: flex; flex-direction: column; gap: 2px;">
           <input id="heartbeat-input" type="text" name="matchCode" placeholder="Code">
