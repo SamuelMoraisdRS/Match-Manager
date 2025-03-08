@@ -39,9 +39,7 @@ function getFormDataObj(formArray) {
 }
 
 function createMatch(formData) {
-
     stompClient.subscribe('/topics/created', (message) => {
-        console.log(`Mensagem recebida pelo back: ${message.body}`);
         updateContent(document.getElementById("match-code"), message.body);
     });
 
@@ -53,7 +51,6 @@ function createMatch(formData) {
 
 function join(formData) {
     stompClient.subscribe(`/topics/created/${formData.matchCode}`, (message) => {
-        console.log(`Mensagem do Join Match: ${message.body}`);
         updateContent(document.getElementById("join-message"), message.body);
     });
     stompClient.publish({
@@ -64,7 +61,6 @@ function join(formData) {
 
 function getPlayers(formData) {
     stompClient.subscribe(`/topics/created/players/${formData.matchCode}`, (message) => {
-        console.log(`Mensagem recebida no getPlayers: ${message}`)
         updateContent(document.getElementById("players-message"), message.body);
     });
     stompClient.publish({
@@ -86,6 +82,7 @@ function endMatch() {
 }
 
 function sendHeartbeat(formData) {
+    console.log(`formData do Heartbeat: ${Object.entries(formData)}`);
     stompClient.subscribe(`/topics/created/heartbeat/${formData.matchCode}`, (message) => {
         console.log(`Mensagem recebida no heartbeat: ${message.body}`);
         updateContent(document.getElementById("match-status"), message.body);
@@ -98,27 +95,37 @@ function sendHeartbeat(formData) {
 }
 
 $(function () {
+    $("#connection-hide").click(() => $("#connection").toggle());
+
+    $("#creation-hide").click(() => $("#creation").toggle());
+    $("#create-form").submit((e) => {
+        e.preventDefault();
+        let formData = getFormDataObj($("#create-form").serializeArray());
+        createMatch(formData);
+    })
 
     $("#join-form").on('submit', (e) => {
         e.preventDefault();
         let formData = getFormDataObj($("#join-form").serializeArray());
         join(formData);
     });
-    $("#heartbeat-button").click(() => {
-        let formData = getFormDataObj($("#join-form").serializeArray());
+    $("#join-hide").click(() => $("#joining").toggle());
+
+    $("#heartbeat-form").submit((e) => {
+        e.preventDefault();
+        let formData = getFormDataObj($("#heartbeat-form").serializeArray());
         sendHeartbeat(formData);
     })
-    $("#connect").click(() => connect());
-    $("#create-form").submit((e) => {
-        e.preventDefault();
-        let formData = getFormDataObj($("#create-form").serializeArray());
-        console.log(formData);
-        createMatch(formData);
-    })
+    $("#heartbeat-hide").click(() => $("#heartbeat").join());
+
     $('#players-form').submit((e) => {
         e.preventDefault();
         const formData = getFormDataObj($('#players-form').serializeArray());
         getPlayers(formData);
     })
+    $("#players-hide").click(() => $("#players").toggle());
+
+    $("#connect").click(() => connect());
+
     $("#disconnect").click(() => disconnect());
 });
