@@ -1,6 +1,7 @@
 package sam.match_manager.Match.Manager.representations;
 
 import java.util.UUID;
+import java.util.Comparator;
 
 import sam.match_manager.Match.Manager.enums.PlayerStatus;
 
@@ -11,6 +12,10 @@ public class Player {
   private int numberOfCorrects;
   private int checksUsed;
   private int submitsUsed;
+  private double score;
+
+  public static final Comparator<Player> compare = (playerA, playerB) -> Double.compare(playerA.getScore(),
+      playerB.getScore());
 
   public Player(PlayerStatus playerStatus, int numberOfGuesses, int numberOfCorrects,
       int checksUsed, int submitsUsed) {
@@ -19,6 +24,7 @@ public class Player {
     this.numberOfGuesses = numberOfGuesses;
     this.numberOfCorrects = numberOfCorrects;
     this.checksUsed = checksUsed;
+    this.submitsUsed = submitsUsed;
   }
 
   public Player(String id, PlayerStatus playerStatus, int numberOfGuesses, int numberOfCorrects,
@@ -27,6 +33,7 @@ public class Player {
     this.playerStatus = playerStatus;
     this.numberOfGuesses = numberOfGuesses;
     this.numberOfCorrects = numberOfCorrects;
+    this.submitsUsed = submitsUsed;
     this.checksUsed = checksUsed;
   }
 
@@ -74,5 +81,11 @@ public class Player {
     this.submitsUsed = submitsUsed;
   }
 
+  public double getScore() {
+    return score;
+  }
 
+  public void setScore(double score) {
+    this.score = score;
+  }
 }
