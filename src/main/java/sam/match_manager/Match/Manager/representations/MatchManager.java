@@ -29,6 +29,7 @@ public class MatchManager {
   private final MatchData matchData;
   private Instant matchStartInstant;
   private Instant matchEndInstant;
+  private Long matchDuration;
   private MatchStatus matchStatus = MatchStatus.IDLE;
   private int remainingPlayers;
 
@@ -44,18 +45,20 @@ public class MatchManager {
     players.put(player.getId(), player);
   }
 
-  public void updatePlayer(Player newPlayer) {
-    if (!players.containsKey(newPlayer.getId())) {
+  public void updatePlayer(Player newPlayerData) {
+    if (!players.containsKey(newPlayerData.getId()) || isPlayerFinished(newPlayerData.getId())) {
       return;
     }
-    Player currentPlayer = players.get(newPlayer.getId());
-    players.put(newPlayer.getId(), newPlayer);
-    // Assuming the player won't join the match as a winner
-    if (newPlayer.getPlayerStatus() == PlayerStatus.WINNER && currentPlayer.getPlayerStatus() == PlayerStatus.WINNER) {
-      return;
+    addPlayer(newPlayerData);
+    if (isPlayerFinished(newPlayerData.getId())) {
+      players.get(newPlayerData.getId()).setScore(calculatePlayerScore(newPlayerData));
+      remainingPlayers--;
     }
-    remainingPlayers--;
-    if (isMatchOver()) {
+    checkEndGame();
+  }
+
+  private void checkEndGame() {
+    if(isMatchOver()) {
       endGame();
     }
   }
@@ -67,13 +70,17 @@ public class MatchManager {
     this.leaderBoard = players.values().stream().sorted(Player.compare).toList();
   }
 
-  private Double calculateScore(Player player) {
+  private Double calculatePlayerScore(Player player) {
     return ((player.getNumberOfCorrects() / player.getNumberOfGuesses()) - player.getChecksUsed()
         - (1.5 * player.getSubmitsUsed()));
   }
 
   public boolean isMatchOver() {
     return remainingPlayers == 0;
+  }
+
+  private boolean isPlayerFinished(String playerId) {
+    return players.get(playerId).getPlayerStatus() == PlayerStatus.WINNER;
   }
 
   public String getMatchCode() {
