@@ -1,5 +1,6 @@
 package sam.match_manager.Match.Manager.representations;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +62,9 @@ public class MatchManager {
 
   private void endGame() {
     matchStatus = MatchStatus.END;
+    matchEndInstant = Instant.now();
+    matchDuration = Duration.between(matchStartInstant, matchEndInstant).toSeconds();
+    this.leaderBoard = players.values().stream().sorted(Player.compare).toList();
   }
 
   private Double calculateScore(Player player) {
