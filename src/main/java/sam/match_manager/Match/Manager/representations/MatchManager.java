@@ -32,11 +32,12 @@ public class MatchManager {
   private Long matchDuration;
   private MatchStatus matchStatus = MatchStatus.IDLE;
   private int remainingPlayers;
+  private Supplier<String> matchCodeGenerator = () -> UUID.randomUUID().toString().substring(0, 6);
 
   public MatchManager(Integer numOfPlayers, MatchData matchData) {
     this.numOfPlayers = numOfPlayers;
     this.matchData = matchData;
-    generateMatchCode();
+    this.matchCode = matchCodeGenerator.get();
     remainingPlayers = numOfPlayers;
     matchStartInstant = Instant.now();
   }
@@ -135,7 +136,4 @@ public class MatchManager {
     this.matchStatus = matchStatus;
   }
 
-  private void generateMatchCode() {
-    this.matchCode = UUID.randomUUID().toString().substring(0, 6);
-  }
 }
