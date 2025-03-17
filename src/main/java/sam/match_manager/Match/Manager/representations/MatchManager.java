@@ -22,10 +22,10 @@ public class MatchManager {
 
   final Integer RANDOM_NUM_FACTOR = 10000;
 
-  private String matchCode;
-  private Integer numOfPlayers;
+  private final String matchCode;
+  private final Integer numOfPlayers;
   private final Map<String, Player> players = new HashMap<>();
-  // TODO: Add leaderboard data structure
+  List<Player> leaderBoard;
   private final MatchData matchData;
   private Instant matchStartInstant;
   private Instant matchEndInstant;
